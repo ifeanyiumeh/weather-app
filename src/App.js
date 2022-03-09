@@ -7,7 +7,19 @@ const api = {
 };
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App warm">
+      <main>
+        <div className="search-box">
+          <input
+            type="text"
+            className="search-bar"
+            placeholder="Search Location..."
+          />
+        </div>
+      </main>
+    </div>
+  );
 }
 
 export default App;

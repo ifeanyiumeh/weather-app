@@ -1,25 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import react from "react";
+import "./App.css";
+
+const api = {
+  key: "cc67e29c72ce022d5d2e962c06bc92c6",
+  base: "http://api.openweathermap.org/data/2.5/l",
+};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;

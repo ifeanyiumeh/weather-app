@@ -11,13 +11,16 @@ function App() {
   const [weather, setWeather] = useState({});
 
   const search = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && query) {
       fetch(`${api.base}weather?q=${query}&units=metric&appid=${api.key}`)
         .then((res) => res.json())
         .then((result) => {
           setWeather(result);
           setQuery("");
           console.log(result);
+        })
+        .catch((e) => {
+          console.log("ERROR", e.message);
         });
     }
   };
@@ -76,7 +79,7 @@ function App() {
             onKeyPress={search}
           />
         </div>
-        {typeof weather.main != "undefined" ? (
+        {weather.main ? (
           <div>
             <div className="location-box">
               <div className="location">
@@ -90,7 +93,11 @@ function App() {
             </div>
           </div>
         ) : (
-          ""
+          <div className="error-box">
+            {weather.cod && (
+              <p>{weather.message} for the location you entered</p>
+            )}
+          </div>
         )}
       </main>
     </div>

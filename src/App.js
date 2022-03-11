@@ -116,15 +116,16 @@ function App() {
               <div className="temp">{Math.round(weather.main.temp)}°c</div>
               <div className="weather">{weather.weather[0].main}</div>
             </div>
-            <div className="forecast-box">{weatherF?.city?.name}</div>
+            {/* <div className="forecast-box">{weatherF?.city?.name}</div> */}
             <div>
               {weatherF?.list?.map(({ main: { temp }, dt_txt }, index) => {
                 const weatherDivision = [0, 8, 16, 24, 32, 40];
                 if (weatherDivision.includes(index)) {
                   return (
-                    <p>
-                      {days[new Date(dt_txt).getDay()]} : {Math.round(temp)}
-                    </p>
+                    <div className="forecast" key={index}>
+                      <p>{days[new Date(dt_txt).getDay()]}</p>
+                      <p>{Math.round(temp)}°c</p>
+                    </div>
                   );
                 }
               })}

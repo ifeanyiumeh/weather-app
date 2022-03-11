@@ -8,6 +8,7 @@ body {
   font-family: "montseratt", sans-serif;
 }
 .App {
+  text-align: center;
   background-image: url("./assets/cold.jpg");
   background-size: cover;
   background-position: bottom;
@@ -109,4 +110,10 @@ main {
   font-style: normal;
   text-align: center;
   text-shadow: 3px 3px rgba(50, 50, 70, 0.5);
+}
+.forecast {
+  padding: 10px;
+  margin: 10px;
+  background: rgb(118, 165, 196);
+  border-radius: 10px;
 }

@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 const api = {
@@ -9,6 +9,37 @@ const api = {
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
+
+  const [weatherF, setWeatherF] = useState({});
+
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const handleSearch = (e) => {
+    search(e);
+    searchF(e);
+  };
 
   const search = (e) => {
     if (e.key === "Enter" && query) {
@@ -25,31 +56,25 @@ function App() {
     }
   };
 
-  const dateFabricator = (d) => {
-    let months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    let days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
+  const searchF = (e) => {
+    if (e.key === "Enter" && query) {
+      fetch(`${api.base}forecast?q=${query}&units=metric&appid=${api.key}`)
+        .then((resF) => resF.json())
+        .then((resultF) => {
+          setWeatherF(resultF);
+          console.log(resultF);
+          console.log(
+            days[new Date(resultF.list.slice(0, 5)[0].dt_txt).getDay()]
+          );
+          console.log(resultF.list.slice(0, 5));
+        })
+        .catch((e) => {
+          console.log("ERROR", e.message);
+        });
+    }
+  };
 
+  const dateFabricator = (d) => {
     let day = days[d.getDay()];
     let date = d.getDate();
     let month = months[d.getMonth()];
@@ -76,7 +101,7 @@ function App() {
             placeholder="Search Location..."
             onChange={(e) => setQuery(e.target.value)}
             value={query}
-            onKeyPress={search}
+            onKeyPress={handleSearch}
           />
         </div>
         {weather.main ? (
@@ -90,6 +115,19 @@ function App() {
             <div className="weather-box">
               <div className="temp">{Math.round(weather.main.temp)}°c</div>
               <div className="weather">{weather.weather[0].main}</div>
+            </div>
+            <div className="forecast-box">{weatherF?.city?.name}</div>
+            <div>
+              {weatherF?.list?.map(({ main: { temp }, dt_txt }, index) => {
+                const weatherDivision = [0, 8, 16, 24, 32, 40];
+                if (weatherDivision.includes(index)) {
+                  return (
+                    <p>
+                      {days[new Date(dt_txt).getDay()]} : {Math.round(temp)}
+                    </p>
+                  );
+                }
+              })}
             </div>
           </div>
         ) : (

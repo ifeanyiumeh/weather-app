@@ -10,7 +10,7 @@ body {
 .App {
   text-align: center;
   background-image: url("./assets/cold.jpg");
-  background-size: cover;
+  background-size: 190vh 55vw;
   background-position: bottom;
   transition: 0.4s ease-out;
 }
@@ -24,8 +24,20 @@ main {
   padding: 25px;
 }
 
+.App.cold {
+  background-image: url("./assets/supercold.jpg");
+  background-size: 185vh 110vw;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.4s ease-out;
+}
 .App.warm {
   background-image: url("./assets/superwarm.jpg");
+
+  background-size: 190vh 130vw;
+  background-position: center;
+  transition: 0.4s ease-out;
+  background-repeat: no-repeat;
 }
 
 .search-box {
@@ -77,6 +89,9 @@ main {
 
 .weather-box {
   text-align: center;
+  font-size: 18px;
+  font-family: "georgia";
+  font-weight: bold;
 }
 
 .weather-box .temp {
@@ -112,8 +127,24 @@ main {
   text-shadow: 3px 3px rgba(50, 50, 70, 0.5);
 }
 .forecast {
+  display: inline-flex;
+
   padding: 10px;
   margin: 10px;
-  background: rgb(118, 165, 196);
-  border-radius: 10px;
+
+  /* background: rgb(118, 165, 196); */
+  background: #000;
+  color: #fff;
+  border-radius: 17px;
+  width: 120px;
+  height: 250px;
+  justify-content: center;
+  flex-wrap: wrap;
+  border: 4px solid yellow;
+}
+.item {
+  border-radius: 6px;
+}
+p {
+  font-size: 1.1em;
 }

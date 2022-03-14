@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { useState } from "react";
 import "./App.css";
 
@@ -48,7 +49,6 @@ function App() {
         .then((result) => {
           setWeather(result);
           setQuery("");
-          console.log(result);
         })
         .catch((e) => {
           console.log("ERROR", e.message);
@@ -62,11 +62,6 @@ function App() {
         .then((resF) => resF.json())
         .then((resultF) => {
           setWeatherF(resultF);
-          console.log(resultF);
-          console.log(
-            days[new Date(resultF.list.slice(0, 5)[0].dt_txt).getDay()]
-          );
-          console.log(resultF.list.slice(0, 5));
         })
         .catch((e) => {
           console.log("ERROR", e.message);
@@ -83,16 +78,23 @@ function App() {
     return `${day} ${date} ${month} ${year}`;
   };
 
-  return (
-    <div
-      className={
-        typeof weather.main != "undefined"
-          ? weather.main.temp > 10
-            ? "App warm"
-            : "App"
-          : "App"
+  const getClassName = () => {
+    if (typeof weather.main != "undefined") {
+      if (weather.main.temp > 10) {
+        return "App warm";
       }
-    >
+      if (weather.main.temp > -3) {
+        return "App";
+      } else {
+        return "App cold";
+      }
+    } else {
+      return "App";
+    }
+  };
+
+  return (
+    <div className={getClassName()}>
       <main>
         <div className="search-box">
           <input
@@ -114,21 +116,43 @@ function App() {
             </div>
             <div className="weather-box">
               <div className="temp">{Math.round(weather.main.temp)}°c</div>
-              <div className="weather">{weather.weather[0].main}</div>
+              <div className="weather">
+                {weather.weather[0].description.toUpperCase()}
+              </div>
             </div>
-            {/* <div className="forecast-box">{weatherF?.city?.name}</div> */}
+
             <div>
-              {weatherF?.list?.map(({ main: { temp }, dt_txt }, index) => {
-                const weatherDivision = [0, 8, 16, 24, 32, 40];
-                if (weatherDivision.includes(index)) {
-                  return (
-                    <div className="forecast" key={index}>
-                      <p>{days[new Date(dt_txt).getDay()]}</p>
-                      <p>{Math.round(temp)}°c</p>
-                    </div>
-                  );
+              {weatherF?.list?.map(
+                (
+                  { main: { temp, humidity }, dt_txt, weather: [{ icon }] },
+                  index
+                ) => {
+                  const weatherDivision = [0, 8, 16, 24, 32, 40];
+
+                  if (weatherDivision.includes(index)) {
+                    return (
+                      <div className="forecast" key={index}>
+                        <div className="item">
+                          <p>{days[new Date(dt_txt).getDay()]}</p>
+                          <p>{Math.round(temp)}°c</p>
+                          <br />
+                          <br />
+                          <p>Humidity</p>
+                          <p>{Math.round(humidity)}%</p>
+                          <br />
+
+                          <img
+                            alt="icon"
+                            src={`http://openweathermap.org/img/w/${icon}.png`}
+                            width="100"
+                            height="100"
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
                 }
-              })}
+              )}
             </div>
           </div>
         ) : (

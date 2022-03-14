@@ -23,3 +23,16 @@
 /* <div className="forecast-box">{weatherF?.city?.name}</div> */
 
 //console.log(typeof icon);
+
+// if (typeof weather.main != "undefined") {
+//   if (weather.main.temp > 10) {
+//     return "App warm";
+//   }
+//   if (weather.main.temp > -3) {
+//     return "App";
+//   } else {
+//     return "App cold";
+//   }
+// } else {
+//   return "App";
+// }

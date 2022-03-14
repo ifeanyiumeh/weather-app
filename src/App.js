@@ -11,7 +11,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
 
-  const [weatherF, setWeatherF] = useState({});
+  const [weatherForecast, setWeatherForecast] = useState({});
 
   let months = [
     "January",
@@ -39,7 +39,7 @@ function App() {
 
   const handleSearch = (e) => {
     search(e);
-    searchF(e);
+    searchForecast(e);
   };
 
   const search = (e) => {
@@ -48,23 +48,23 @@ function App() {
         .then((res) => res.json())
         .then((result) => {
           setWeather(result);
-          setQuery("");
         })
         .catch((e) => {
-          console.log("ERROR", e.message);
+          console.error("ERROR", e.message);
         });
     }
   };
 
-  const searchF = (e) => {
+  const searchForecast = (e) => {
     if (e.key === "Enter" && query) {
       fetch(`${api.base}forecast?q=${query}&units=metric&appid=${api.key}`)
-        .then((resF) => resF.json())
-        .then((resultF) => {
-          setWeatherF(resultF);
+        .then((res) => res.json())
+        .then((result) => {
+          setWeatherForecast(result);
+          setQuery("");
         })
         .catch((e) => {
-          console.log("ERROR", e.message);
+          console.error("ERROR", e.message);
         });
     }
   };
@@ -79,18 +79,16 @@ function App() {
   };
 
   const getClassName = () => {
+    let className = "App";
     if (typeof weather.main != "undefined") {
       if (weather.main.temp > 10) {
-        return "App warm";
+        className += " warm";
+      } else if (weather.main.temp <= -3) {
+        className += " cold";
       }
-      if (weather.main.temp > -3) {
-        return "App";
-      } else {
-        return "App cold";
-      }
-    } else {
-      return "App";
     }
+
+    return className;
   };
 
   return (
@@ -122,7 +120,7 @@ function App() {
             </div>
 
             <div>
-              {weatherF?.list?.map(
+              {weatherForecast?.list?.map(
                 (
                   { main: { temp, humidity }, dt_txt, weather: [{ icon }] },
                   index
